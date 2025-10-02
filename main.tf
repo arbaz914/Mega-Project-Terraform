@@ -103,6 +103,12 @@ resource "aws_eks_addon" "ebs_csi_driver" {
   
   resolve_conflicts_on_create = "OVERWRITE"
   resolve_conflicts_on_update = "OVERWRITE"
+
+  depends_on = [aws_eks_cluster.devopsshack]
+  timeouts {
+    create = "30m"
+    update = "30m"
+  }
 }
 
 
@@ -118,7 +124,7 @@ resource "aws_eks_node_group" "devopsshack" {
     min_size     = 3
   }
 
-  instance_types = ["t2.medium"]
+  instance_types = ["t3.medium"]
 
   remote_access {
     ec2_ssh_key = var.ssh_key_name
